@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="row my-4">
+        <div class="col-12 text-right"> <!-- Add the "text-right" class here -->
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+    <div class="container text-center mt-3">
+        <h1>Hotel Reviews</h1>
+        <h2>This project aims to study the reviews of Penang hotels</h2>
+        
+
+    </script>
+    <div class="container text-center mt-6">
+        {% for x in pics %}
+        <p> </p>
+        <h4> Most frequent Word in Reviews</h4>
+        <img src="{{x.image.url}}" class="img-fluid" alt="Responsive image">
+        {% endfor %}
+    </div>
+   
+</body>
+</html>
