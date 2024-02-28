@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% load static %}
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+<script src="{% static 'js/chartjs-plugin-datalabels.min.js' %}"></script>
+
+</head>
+<body>
+    <div class="row my-4">
+        <div class="col-12 text-right"> <!-- Add the "text-right" class here -->
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+    <div class="container text-center mt-2">
+        <h1>Hotel Reviews</h1>
+        <h4>This project aims to study the ratings & reviews in South East Asia and hope to provide reference for users in planning vacation. </h4>
+    
+
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    
+    <div class="container text-center mt-12">
+        <h4>Rating graph for top 10 hotels in every countries</h4>
+            <canvas id="avgratingchart"></canvas>
+    <body> Pick the best hotel in each country, happy travelling! :) </body>
+    <p></p>
+    <div class="container text-center mt-12">
+        <h4>Respective hotel names</h4>
+            <canvas id="avgratingchart1"></canvas>
+    </div>
+      
+   <body>
+    From the first graph, we can tell that the ratings for Singapore is relatively low in range 7.0-8.5 and Vietnam has higher ratings on average. We will then zoom in to see the most frequent words in reviews provided for Singapore and Vietnam.</body>
+</body>
+<p></p>
+<h4 style="text-align: center;">Most frequent Words in Reviews</h4>
+<div class="container" style="display: flex; flex-wrap: wrap; justify-content: center;">
+    {% for x in pics %}
+        <div style="margin: 10px; width: 45%; text-align: center;">
+            <img src="{{x.image.url}}" class="img-fluid" alt="Responsive image" style="width: 200%;">
+            <h5>{{x.caption}}</h5>
+        </div>
+    {% endfor %}
+
+    <body> The wordcloud shows that the overall review for both Vietnam and Singapore hotels are quite positive. However the average rating score for Vietnam is higher than Singapore could be due to travelers' expectation.  Travelers may have different expectations when visiting a developing country like Vietnam compared to a developed country like Singapore. In a developing country, visitors might be more forgiving or positively surprised by certain amenities or services that might be considered standard in a developed country. This contrast in expectations could influence how travelers perceive and rate their hotel experiences.</body>
+</div>
+
+</html>
+
+<script>
+// Parse the serialized_data if it's a valid JSON string
+var pythonArray = JSON.parse('{{ serialized_data|escapejs }}');
+
+// Extract hotel names & ratings from the Python array
+var hotellocation = [];
+var rating = [];
+pythonArray.forEach(function(item) {
+    hotellocation.push(item.fields.hotel_location);
+    rating.push(item.fields.rating)
+});
+
+console.log(hotellocation);
+console.log(rating);
+
+// Create a JavaScript array if necessary
+var jsArray = hotellocation.slice();
+var ratingArray = rating.slice(); // Copy the array
+
+console.log(jsArray);
+console.log(ratingArray)
+
+// Create Chart.js chart
+var avgctx = document.getElementById('avgratingchart');
+var avgratingchart = new Chart(avgctx, {
+    type: 'line',
+    data: {
+        labels: jsArray,
+        datasets: [{
+            label: 'Rating',
+            data: ratingArray
+        }]
+    }
+});
+
+
+// Parse the serialized_data if it's a valid JSON string
+var pythonArray = JSON.parse('{{ serialized_data|escapejs }}');
+
+// Extract hotel names & ratings from the Python array
+var hotel_name = [];
+var rating = [];
+pythonArray.forEach(function(item) {
+    hotel_name.push(item.fields.hotel_name)
+    rating.push(item.fields.rating)
+});
+
+console.log(hotel_name);
+console.log(rating);
+
+// Create a JavaScript array if necessary
+var jsArray1 = hotel_name.slice();
+var ratingArray1 = rating.slice(); // Copy the array
+
+console.log(jsArray1);
+console.log(ratingArray1)
+
+// Create Chart.js chart
+var avgctx = document.getElementById('avgratingchart1');
+var avgratingchart1 = new Chart(avgctx, {
+    type: 'line',
+    data: {
+        labels: jsArray1,
+        datasets: [{
+            label: 'Rating',
+            data: ratingArray1
+        }]
+    }
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
